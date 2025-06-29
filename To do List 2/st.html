@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secure Homework Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+      
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  background-image: url('https://img.freepik.com/free-photo/tulips-with-notebook-keyboard-tea_23-2148071813.jpg?semt=ais_hybrid&w=740');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+header {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  text-align: center;
+  color: #6b2c91;
+  font-size: 28px;
+  font-weight: bold;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.login {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  margin: 60px auto;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+}
+
+.login h2 {
+  color: #7b4397;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+.login button {
+  width: 100%;
+  padding: 12px;
+  background-color: #9e5cbae9;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login button:hover {
+  background-color: #7b4397;
+  transform: scale(1.05);
+}
+
+.main {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+ h2 {
+  color: #6a1b9a;
+}
+
+.logout {
+  background-color: #e57373;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout:hover {
+  background-color: #c62828;
+}
+
+
+.teacher {
+  background-color: #f3e5f5;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.teacher input,
+.teacher select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.teacher button {
+  background-color: #7b4397;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.teacher button:hover {
+  background-color: #5e3370;
+}
+
+.task {
+  margin-top: 30px;
+}
+
+.task h3 {
+  color: #512da8;
+  margin-top: 20px;
+}
+
+.task ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.task li {
+  background: #ffffff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.task li:hover {
+  transform: scale(1.02);
+}
+
+.task input[type="checkbox"] {
+  margin-left: 10px;
+}
+
+.task .done {
+  text-decoration: line-through;
+  color: #888;
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Secure Homework Management</h1>
+  </header>
+
+  <div class="container">
+    <div class="login" id="loginBox">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Enter username...">
+      <button onclick="login()">Login</button>
+      <p id="Msg" style="color: red;"></p>
+    </div>
+
+    <div class="main" id="Box" style="display:none;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="welcomeText"></h2>
+        <button class="logout" onclick="logout()">Logout</button>
+      </div>
+
+      <div id="teacher" class="teacher" style="display: none;">
+        <input type="text" id="taskInput" placeholder="Enter homework task">
+        <select id="studentMulti" multiple size="4"></select>
+        <button onclick="assignTask()">Assign Task</button>
+      </div>
+
+      <div class="task" id="taskDisplay"></div>
+    </div>
+  </div>
+
+  <script>
+  let user = null;
+  let tasks = [];
+  let users = [];
+
+  function login() {
+    const username = document.getElementById("username").value.trim();
+
+    if (!username) {
+      document.getElementById("Msg").textContent = "Please enter a username.";
+      return;
+    }
+
+    user = username;
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("Box").style.display = "block";
+    document.getElementById("Msg").textContent = "";
+    document.getElementById("welcomeText").textContent = `Welcome, ${user}`;
+
+    if (user.toLowerCase() === "teacher") {
+      document.getElementById("teacher").style.display = "block";
+      updateStudentList();
+    } else {
+      document.getElementById("teacher").style.display = "none";
+      if (!users.includes(user)) {
+        users.push(user);
+      }
+    }
+
+    showTasks();
+  }
+
+  function logout() {
+    user = null;
+    document.getElementById("Box").style.display = "none";
+    document.getElementById("loginBox").style.display = "block";
+    document.getElementById("username").value = "";
+  }
+
+  function updateStudentList() {
+    const studentSelect = document.getElementById("studentMulti");
+    studentSelect.innerHTML = "";
+    users.forEach(u => {
+      if (u.toLowerCase() !== "teacher") {
+        const option = document.createElement("option");
+        option.value = u;
+        option.textContent = u;
+        studentSelect.appendChild(option);
+      }
+    });
+  }
+
+  function assignTask() {
+    const text = document.getElementById("taskInput").value.trim();
+    const selectedStudents = Array.from(document.getElementById("studentMulti").selectedOptions).map(opt => opt.value);
+    if (!text || selectedStudents.length === 0) return;
+
+    selectedStudents.forEach(student => {
+      tasks.push({
+        id: Date.now() + Math.random(),
+        text,
+        student,
+        done: false
+      });
+    });
+
+    document.getElementById("taskInput").value = "";
+    showTasks();
+  }
+
+  function toggleTask(id) {
+    tasks = tasks.map(task => {
+      if (task.id === id && task.student === user) {
+        task.done = !task.done;
+      }
+      return task;
+    });
+    showTasks();
+  }
+
+  function showTasks() {
+    const display = document.getElementById("taskDisplay");
+    display.innerHTML = "";
+
+    const filtered = user.toLowerCase() === "teacher" ? tasks : tasks.filter(t => t.student === user);
+
+    if (filtered.length === 0) {
+      display.innerHTML = "<p>No tasks assigned.</p>";
+      return;
+    }
+
+    const grouped = {};
+    filtered.forEach(task => {
+      if (!grouped[task.student]) grouped[task.student] = [];
+      grouped[task.student].push(task);
+    });
+
+    for (const student in grouped) {
+      const section = document.createElement("div");
+      if (user.toLowerCase() === "teacher") section.innerHTML = `<h3>${student}</h3>`;
+      const ul = document.createElement("ul");
+
+      grouped[student].forEach(task => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span class="${task.done ? 'done' : ''}">${task.text}</span>`;
+
+        if (user === task.student) {
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = task.done;
+          checkbox.onclick = () => toggleTask(task.id);
+          li.appendChild(checkbox);
+        }
+
+        ul.appendChild(li);
+      });
+
+      section.appendChild(ul);
+      display.appendChild(section);
+    }
+  }
+</script>
+
+
+</body>
+</html>
