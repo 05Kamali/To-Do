@@ -48,11 +48,6 @@ This module supports role-based homework assignment and task tracking for studen
 
 ---
 
-## 📌 Conclusion
-
-The **To-Do List Web Application** is a practical and real-world oriented project that showcases effective task management, thoughtful design, and a structured workflow. It demonstrates how a common productivity problem can be transformed into a functional and user-friendly web solution.
-
----
 
 ## 👤 Author
 
