@@ -1,6 +1,6 @@
-# To-Do List Web Application 📝
+# To-Do List Web Application
 
-## 📌 Project Overview
+##  Project Overview
 
 The To-Do List Web Application is a simple and organized web-based task management system developed to help users manage their activities efficiently. The application allows users to handle personal tasks, set reminders for important activities, and manage academic homework through a secure and structured approach.
 
@@ -8,7 +8,7 @@ The project follows a clear workflow starting with an introduction page, followe
 
 ---
 
-## 🧭 Overall Application Flow
+##  Overall Application Flow
 
 The application follows a clear and logical workflow to ensure ease of use.
 
